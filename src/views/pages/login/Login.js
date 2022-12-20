@@ -16,6 +16,10 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
+import Cliente from 'src/models/Cliente'
+import axios from 'axios'
+import jquery, {find as $} from 'jquery'
+
 const Login = () => {
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
@@ -32,13 +36,14 @@ const Login = () => {
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput id="in_email" placeholder="Email" autoComplete="email" />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
                       <CFormInput
+                        id="in_password"
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
@@ -46,14 +51,19 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" onClick={() => {
+                            const email = $("#in_email")[0].value;
+                            const password = $("#in_password")[0].value;
+                            console.log(email + ' ' + password);
+                            axios.post('http://localhost:8080/auth', {
+                                'email' : email,
+                                'password' : password,
+                              }).then((res) => { console.log(res) }).catch((err) => { console.log(err) })
+                          }}>
                           Login
                         </CButton>
                       </CCol>
                       <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
-                        </CButton>
                       </CCol>
                     </CRow>
                   </CForm>
@@ -63,10 +73,8 @@ const Login = () => {
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
+                    <p>Millions of users and thousands of
+                      companies use Ardeeno as an innovation platform</p>
                     <Link to="/register">
                       <CButton color="primary" className="mt-3" active tabIndex={-1}>
                         Register Now!

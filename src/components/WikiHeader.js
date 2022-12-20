@@ -5,17 +5,19 @@ import {
   CContainer,
   CHeader,
   CHeaderBrand,
+  CHeaderDivider,
   CHeaderNav,
   CHeaderToggler,
   CNavLink,
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilAccountLogout, cilHome, cilMenu, cilUser } from '@coreui/icons'
+import { cilAccountLogout, cilMenu, cilUser } from '@coreui/icons'
 
+import { WikiBreadcrumb } from './index'
 import { logo } from 'src/assets/brand/logo'
 
-const AppHeader = () => {
+const WikiHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -33,26 +35,30 @@ const AppHeader = () => {
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/" component={NavLink}>
+            <CNavLink to="/myAcc/impianti" component={NavLink}>
               Home
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink to="/logout" component={NavLink}>
+            <CNavLink href="#/logout">
               <CIcon icon={cilAccountLogout} size="lg" />
             </CNavLink>       
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/login" component={NavLink}>
+            <CNavLink href="#/myAcc">
               <CIcon icon={cilUser} size="lg" />
             </CNavLink>       
           </CNavItem>
         </CHeaderNav>
       </CContainer>
+      <CHeaderDivider />
+      <CContainer fluid>
+        <WikiBreadcrumb />
+      </CContainer>
     </CHeader>
   )
 }
 
-export default AppHeader
+export default WikiHeader

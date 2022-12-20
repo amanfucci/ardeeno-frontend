@@ -1,8 +1,7 @@
 import React from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
 
-const DefaultLayout = () => {
-  return (
+const AppLayout = () => 
     <div>
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
@@ -13,7 +12,5 @@ const DefaultLayout = () => {
         <AppFooter />
       </div>
     </div>
-  )
-}
 
-export default DefaultLayout
+export default AppLayout
