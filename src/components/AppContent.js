@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import {Route, Routes } from 'react-router-dom'
+import {Route, Routes, Navigate } from 'react-router-dom'
 import { CContainer, CSpinner } from '@coreui/react'
 
 const Home = React.lazy(() => import('../views/appContent/Home'))
@@ -11,12 +11,14 @@ const AppContent = () =>
     <CContainer lg>
       <Suspense fallback={<CSpinner color="primary" />}>
         <Routes>
-          <Route path="/" name="Home" element={<Home/>} />
-          {/*<Route exact path="/myAcc" name="Account" element={<MyAccount/>} />
-          <Route exact path="/myAcc/impianti" name="Impianti" element={<MyImpianti/>} />
-          <Route exact path="/myAcc/impianti/:imp" name="Dashboard" element={<Home/>} />
+          <Route exact path="/" name="Home" element={<Navigate replace to="/home" />}/>
+          <Route exact path="/home" name="Home" element={<Home/>} />
+          <Route exact path="/myAccount" name="Account" element={<MyAccount/>} />
+          <Route exact path="/myImpianti" name="Impianti" element={<MyImpianti/>} />
+           {/*<Route exact path="/myImpianti/dashboard" name="Dashboard" element={<Home/>} />
           */}
-          </Routes>
+          <Route path="/*" element={<Navigate replace to="/404" />} />
+        </Routes>
       </Suspense>
     </CContainer>
 

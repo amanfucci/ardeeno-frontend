@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation  } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -11,15 +11,28 @@ import {
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilAccountLogout, cilHome, cilMenu, cilUser } from '@coreui/icons'
+import { cibAbstract, cibSuperuser, cilAccountLogout, cilMenu, cilUser, cilUserPlus, cilUserX } from '@coreui/icons'
+
+import { AppContext } from 'src/App'
 
 import { logo } from 'src/assets/brand/logo'
+
+import {InfoModal} from 'src/components/index'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const navigate = useNavigate()
+  const context = React.useContext(AppContext)
+
+  const [logoutAction, setLogoutAction] = React.useState(false)
 
   return (
+    <>
+    {logoutAction ? <InfoModal 
+      title='Succesful Logout' 
+      body='Close this window and go back home'
+      onClose={()=>{setLogoutAction(false);navigate('/');}}></InfoModal> : ''}
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
         <CHeaderToggler
@@ -33,25 +46,29 @@ const AppHeader = () => {
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/" component={NavLink}>
-              Home
+            <CNavLink>
+              {useLocation().pathname}
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink to="/logout" component={NavLink}>
-              <CIcon icon={cilAccountLogout} size="lg" />
+            <CNavLink to="#logout" component={NavLink}>
+              <CIcon icon={cilAccountLogout} size="lg" onClick={() => {
+                context.logout();
+                setLogoutAction(true);
+              }}/>
             </CNavLink>       
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/login" component={NavLink}>
-              <CIcon icon={cilUser} size="lg" />
+            <CNavLink to={context.getLoggedUser() ? "/myAccount" : "/login"} component={NavLink}>
+              <CIcon icon={context.getLoggedUser() ? cilUser : cilUserPlus } size="lg" />
             </CNavLink>       
           </CNavItem>
         </CHeaderNav>
       </CContainer>
     </CHeader>
+    </>
   )
 }
 

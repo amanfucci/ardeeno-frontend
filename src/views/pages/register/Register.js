@@ -10,9 +10,12 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CCardLink,
+  CNavLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import {NavLink} from 'react-router-dom'
 
 const Register = () => {
   return (
@@ -59,6 +62,13 @@ const Register = () => {
                     <CButton color="success">Create Account</CButton>
                   </div>
                 </CForm>
+              </CCardBody>
+              <CCardBody>
+                  <CCardLink>
+                    <CNavLink to='/login' component={NavLink}>
+                      Go back to Login
+                    </CNavLink>
+                  </CCardLink>
               </CCardBody>
             </CCard>
           </CCol>

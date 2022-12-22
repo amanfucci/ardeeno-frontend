@@ -12,13 +12,16 @@ import { sygnet } from 'src/assets/brand/sygnet'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 
+import { AppContext } from 'src/App'
+
 // sidebar nav config
-import navigation from '../_nav'
+import {_nav, _nav_cliente} from '../_nav'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const context = React.useContext(AppContext)
 
   return (
     <CSidebar
@@ -35,7 +38,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={[..._nav, ...(context.getLoggedUser() ? _nav_cliente : [])]} />
         </SimpleBar>
       </CSidebarNav>
     </CSidebar>

@@ -1,15 +1,11 @@
 import React from 'react'
 import {
-  CButton,
   CCol,
   CContainer,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
+  CNavLink,
   CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilMagnifyingGlass } from '@coreui/icons'
+import {NavLink} from 'react-router-dom'
 
 const Page404 = () => {
   return (
@@ -25,6 +21,14 @@ const Page404 = () => {
               </p>
             </div>
           </CCol>
+
+        </CRow>
+        <CRow className="justify-content-center">
+          <CCol md={6}>
+            <CNavLink to='/' component={NavLink}>
+            Go back Home
+            </CNavLink>
+          </CCol>          
         </CRow>
       </CContainer>
     </div>

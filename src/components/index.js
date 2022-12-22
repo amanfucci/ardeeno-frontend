@@ -1,10 +1,10 @@
-import WikiBreadcrumb from './WikiBreadcrumb'
 import AppHeaderDropdown from './header/AppHeaderDropdown'
 
 import AppContent from './AppContent'
 import AppFooter from './AppFooter'
 import AppHeader from './AppHeader'
 import AppSidebar from './AppSidebar'
+import InfoModal from './InfoModal'
 
 import WikiContent from './WikiContent'
 import WikiHeader from './WikiHeader'
@@ -15,13 +15,13 @@ import DocsLink from './DocsLink'
 import DocsExample from './DocsExample'
 
 export {
-  WikiBreadcrumb,
   AppHeaderDropdown,
 
   AppContent,
   AppFooter,
   AppHeader,
   AppSidebar,
+  InfoModal,
 
   WikiContent,
   WikiHeader,

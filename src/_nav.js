@@ -7,29 +7,30 @@ import {
 } from '@coreui/icons'
 import { CNavItem, CNavTitle } from '@coreui/react'
 
-const _nav = [
+export const _nav = [
   {
     component: CNavItem,
     name: 'Home',
     to: '/',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />
-  },
+  }
+]
+
+export const _nav_cliente = [
   {
     component: CNavTitle,
-    name: 'User Area',
+    name: 'Client Area',
   },
   {
     component: CNavItem,
     name: 'My Account',
-    to: '/myAcc',
+    to: '/myAccount',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'My Impianti',
-    to: '/myAcc/impianti',
+    to: '/myImpianti',
     icon: <CIcon icon={cilList} customClassName="nav-icon" />,
   }
 ]
-
-export default _nav

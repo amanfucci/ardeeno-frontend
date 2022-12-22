@@ -14,7 +14,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilAccountLogout, cilMenu, cilUser } from '@coreui/icons'
 
-import { WikiBreadcrumb } from './index'
 import { logo } from 'src/assets/brand/logo'
 
 const WikiHeader = () => {
@@ -35,27 +34,11 @@ const WikiHeader = () => {
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/myAcc/impianti" component={NavLink}>
-              Home
+            <CNavLink to="/wiki/" component={NavLink}>
+              Wiki Home
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
-        <CHeaderNav>
-          <CNavItem>
-            <CNavLink href="#/logout">
-              <CIcon icon={cilAccountLogout} size="lg" />
-            </CNavLink>       
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#/myAcc">
-              <CIcon icon={cilUser} size="lg" />
-            </CNavLink>       
-          </CNavItem>
-        </CHeaderNav>
-      </CContainer>
-      <CHeaderDivider />
-      <CContainer fluid>
-        <WikiBreadcrumb />
       </CContainer>
     </CHeader>
   )

@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, NavLink } from 'react-router-dom'
 import {
   CButton,
   CCard,
   CCardBody,
+  CCardFooter,
   CCardGroup,
   CCol,
   CContainer,
@@ -11,17 +12,68 @@ import {
   CFormInput,
   CInputGroup,
   CInputGroupText,
+  CNavLink,
   CRow,
+  CCardLink
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 
-import Cliente from 'src/models/Cliente'
 import axios from 'axios'
-import jquery, {find as $} from 'jquery'
+
+import {InfoModal} from 'src/components/index'
+import {AppContext} from 'src/App'
+
+import { API_URL } from 'src/App'
 
 const Login = () => {
+  const [validated, setValidated] = React.useState(false)
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [loginError, setLoginError] = React.useState(false);
+  const navigate = useNavigate()
+  const context = React.useContext(AppContext)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setValidated(true) //Enables form validation
+
+    console.log(context)
+    console.log(context.getLoggedUser())
+
+    const form = event.currentTarget
+    if(form.checkValidity() === true){
+      //send request, only if form is valid
+
+      axios.post(API_URL+'/auth', {
+          'email' : email,
+          'password' : password,
+        })
+        .then((res) => {
+          console.log(res)
+          context.login({
+            token: res.data.token,
+            email: res.data.email,
+            _id: res.data._id,
+            ruolo: res.data.ruolo
+          })
+          //change utente state and redirect to /myAcc
+          navigate('/myAccount')
+        })
+        .catch((err) => {
+          console.log('Houston, we have an error: ' + err + '. See below for more info')
+          console.log(err)
+          setLoginError(true)//show pop-up window
+        })
+    }
+  }
+
   return (
+    <>
+    {context.getLoggedUser() ? <InfoModal title='Already logged in!'
+      body={'Already logged in as ' + context.getLoggedUser().email}/> : ''}
+    {loginError ? <InfoModal title='Login Error!' body='See the console for more information'/> : ''}
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
@@ -29,14 +81,25 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm
+                    noValidate
+                    validated={validated}
+                    onSubmit={handleSubmit}>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput id="in_email" placeholder="Email" autoComplete="email" />
+                      <CFormInput
+                        id="in_email"
+                        type="email"
+                        placeholder="Email"
+                        autoComplete="email"
+                        pattern=".+@.+\..+"
+                        required
+                        onChange={(event)=>setEmail(event.currentTarget.value)}
+                        />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -46,27 +109,32 @@ const Login = () => {
                         id="in_password"
                         type="password"
                         placeholder="Password"
-                        autoComplete="current-password"
+                        autoComplete="Password"
+                        required
+                        onChange={(event)=>setPassword(event.currentTarget.value)}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={() => {
-                            const email = $("#in_email")[0].value;
-                            const password = $("#in_password")[0].value;
-                            console.log(email + ' ' + password);
-                            axios.post('http://localhost:8080/auth', {
-                                'email' : email,
-                                'password' : password,
-                              }).then((res) => { console.log(res) }).catch((err) => { console.log(err) })
-                          }}>
+                        <CButton
+                          id="in_submit"
+                          color="primary"
+                          className="px-4"
+                          type="submit">
                           Login
                         </CButton>
                       </CCol>
-                      <CCol xs={6} className="text-right">
+                      <CCol xs={6} className='text-right'>
                       </CCol>
                     </CRow>
                   </CForm>
+                </CCardBody>
+                <CCardBody>
+                  <CCardLink>
+                    <CNavLink to='/' component={NavLink}>
+                      Go back Home
+                    </CNavLink>
+                  </CCardLink>
                 </CCardBody>
               </CCard>
               <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
@@ -88,6 +156,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
+    </>
   )
 }
 
