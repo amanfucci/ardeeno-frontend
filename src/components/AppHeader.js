@@ -32,7 +32,7 @@ const AppHeader = () => {
     {logoutAction ? <InfoModal 
       title='Succesful Logout' 
       body='Close this window and go back home'
-      onClose={()=>{setLogoutAction(false);navigate('/');}}></InfoModal> : ''}
+      onClose={()=>{setLogoutAction(false);navigate('/home');}}></InfoModal> : ''}
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
         <CHeaderToggler
@@ -53,10 +53,11 @@ const AppHeader = () => {
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink to="#logout" component={NavLink}>
+            <CNavLink component={NavLink}>
               <CIcon icon={cilAccountLogout} size="lg" onClick={() => {
-                context.logout();
+                console.log('setLogoutAction(true)');
                 setLogoutAction(true);
+                context.logout();
               }}/>
             </CNavLink>       
           </CNavItem>

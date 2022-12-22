@@ -4,10 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import {StoreManager} from "react-persistent-store-manager";
 import './scss/style.scss'
 
-import { Stores, AppStore } from "./state/store";
-import axios from 'axios';
+import localforage from 'localforage';
 
-const Store = StoreManager(AppStore, Stores, "loggedUser");
+localforage.config();
 
 const loading = (
   <div className="pt-3 text-center">
@@ -27,47 +26,29 @@ const WikiLayout = React.lazy(() => import('./layout/WikiLayout'))
 export const AppContext = React.createContext();
 
 const App = () => {
-  const [token, setToken] = React.useState(null)
-  const [email, setEmail] = React.useState(null)
-  const [_id, set_id] = React.useState(null)
-  const [ruolo, setRuolo] = React.useState(null)
+  const [loggedUser, setLoggedUser] = React.useState('')
 
-  Store.useStateAsync('token').then(val => {
-    val && setToken(val) && axios.get('localhost:8080/')
-  })
-  Store.useStateAsync('email').then(val => {
-    val && setEmail(val)
-  })
-  Store.useStateAsync('_id').then(val => {
-    val && set_id(val)
-  })
-  Store.useStateAsync('ruolo').then(val => {
-    val && setRuolo(val)
-  })
+  React.useEffect(()=>{
+    localforage.getItem('loggedUser').then((data)=>{
+      setLoggedUser(data)
+    })
+  }, [])
 
   //Check token validity
   return (
     <>
     <AppContext.Provider value={{
-      getLoggedUser:()=> (
-        token && {
-          'token':token, 
-          'email':email, 
-          '_id':_id,
-          'ruolo':ruolo
-        }
-      ),
+      getLoggedUser:()=>loggedUser
+      ,
       login:(newLoggedUser)=>{
-        Store.update('token', newLoggedUser.token); setToken(newLoggedUser.token);
-        Store.update('email', newLoggedUser.email); setEmail(newLoggedUser.email);
-        Store.update('_id', newLoggedUser._id); set_id(newLoggedUser._id);
-        Store.update('ruolo', newLoggedUser.ruolo); setRuolo(newLoggedUser.ruolo);
+        if(newLoggedUser && newLoggedUser != null){
+          localforage.setItem('loggedUser', newLoggedUser)
+          setLoggedUser(newLoggedUser)
+        }
       },
       logout:()=>{
-        Store.update('token', null); setToken(null);
-        Store.update('email', null); setEmail(null);
-        Store.update('_id', null); set_id(null);
-        Store.update('ruolo', null); setRuolo(null);
+        localforage.setItem('loggedUser', '')
+        setLoggedUser('')
       }
       }}>
       <Router>

@@ -4,9 +4,10 @@ import React from 'react'
 import {InfoModal} from 'src/components/index'
 import {AppContext} from 'src/App'
 
+import {NavLink} from 'react-router-dom'
+
 import axios from 'axios'
-import { applyMiddleware } from 'redux'
-import { CCard, CCardBody, CFormInput, CInputGroup, CCol, CRow } from '@coreui/react'
+import { CCard, CCardBody, CFormInput, CInputGroup, CCol, CRow, CCardLink } from '@coreui/react'
 
 import { API_URL } from 'src/App'
 
@@ -38,15 +39,18 @@ const MyImpianti = () =>{
         <CCol xs md={6}>
           <CCard >
           <CCardBody>
-          {
-          Object.keys(item).map(key => 
-            <CInputGroup className="mb-3">
-              <CFormInput disabled value={key}></CFormInput>
-              <CFormInput aria-disabled value={item[key]}></CFormInput>
-            </CInputGroup>        
-            )
-          }
-        </CCardBody>
+            {
+            Object.keys(item).map(key => 
+              <CInputGroup className="mb-3">
+                <CFormInput disabled value={key}></CFormInput>
+                <CFormInput aria-disabled value={item[key]}></CFormInput>
+              </CInputGroup>        
+              )
+            }
+            <CCardLink to='/myImpianti/dashboard' component={NavLink}>
+              Go to Dashboard
+            </CCardLink>
+          </CCardBody>
         </CCard>
         </CCol>
         )

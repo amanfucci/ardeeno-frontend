@@ -14,11 +14,12 @@ const InfoModal = (props)=>{
   const onClose = () => {
     setVisible(false)
     props.onClose?.call()
+    console.log('InfoModal.onClose()');
   }
   return (
     <>
     <CModal visible={visible} onClose={onClose}>
-      <CModalHeader onClose={onClose}>
+      <CModalHeader>
         <CModalTitle>{props.title}</CModalTitle>
       </CModalHeader>
       <CModalBody>{props.body}</CModalBody>

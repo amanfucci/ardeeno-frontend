@@ -39,7 +39,6 @@ const Login = () => {
     event.stopPropagation()
     setValidated(true) //Enables form validation
 
-    console.log(context)
     console.log(context.getLoggedUser())
 
     const form = event.currentTarget
@@ -73,7 +72,12 @@ const Login = () => {
     <>
     {context.getLoggedUser() ? <InfoModal title='Already logged in!'
       body={'Already logged in as ' + context.getLoggedUser().email}/> : ''}
-    {loginError ? <InfoModal title='Login Error!' body='See the console for more information'/> : ''}
+    {loginError ?
+      <InfoModal
+        title='Login Error!'
+        body='See the console for more information'
+        onClose={()=>setLoginError(false)}
+        /> : ''}
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">

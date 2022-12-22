@@ -15,8 +15,7 @@ const AppContent = () =>
           <Route exact path="/home" name="Home" element={<Home/>} />
           <Route exact path="/myAccount" name="Account" element={<MyAccount/>} />
           <Route exact path="/myImpianti" name="Impianti" element={<MyImpianti/>} />
-           {/*<Route exact path="/myImpianti/dashboard" name="Dashboard" element={<Home/>} />
-          */}
+          <Route exact path="/myImpianti/dashboard" name="Dashboard" element={<Dashboard/>} />
           <Route path="/*" element={<Navigate replace to="/404" />} />
         </Routes>
       </Suspense>
