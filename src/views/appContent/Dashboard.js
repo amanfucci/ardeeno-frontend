@@ -8,26 +8,21 @@ import {AppContext} from 'src/App'
 
 import { CCard, CCardBody, CFormInput, CInputGroup, CCol, CRow, CCardLink } from '@coreui/react'
 
-const MyImpianti = (props) =>{
-  const [imp, setImp] = React.useState({})
-
+const MyImpianti = () =>{
   const context = React.useContext(AppContext)
-  React.useEffect(() => {
-    setImp(props)
-  }, []);
 
   return(
     <>
-    {!imp ? <InfoModal title='Select one Impianto!' body='Please, select first an Impianto'/> : ''}
+    {!context.getImp() ? <InfoModal title='Select one Impianto!' body='Please, select first an Impianto'/> : ''}
     <CRow>
         <CCol xs md={4}>
           <CCard >
             <CCardBody>
               {
-              Object.keys(imp).map(key => 
+              Object.keys(context.getImp()).map(key => 
                 <CInputGroup className="mb-3">
                   <CFormInput disabled value={key}></CFormInput>
-                  <CFormInput aria-disabled value={imp[key]}></CFormInput>
+                  <CFormInput aria-disabled value={context.getImp()[key]}></CFormInput>
                 </CInputGroup>        
                 )
               }
@@ -40,7 +35,7 @@ const MyImpianti = (props) =>{
               Visualizza le misurazioni del tuo Impianto
               in una performante Heatmap!
               <br/>
-              <CCardLink  to='/myImpianti/dashboard' component={NavLink}>
+              <CCardLink  to='/myImpianti/heatmap' component={NavLink}>
               -&gt;Heatmap 
               </CCardLink>
             </CCardBody>
@@ -52,7 +47,7 @@ const MyImpianti = (props) =>{
               Visualizza le misurazioni del tuo Impianto
               in forma tabulare.
               <br/>
-              <CCardLink to='/myImpianti/dashboard' component={NavLink}>
+              <CCardLink to='/myImpianti/misurazioni' component={NavLink}>
               -&gt;Misurazioni
               </CCardLink>
             </CCardBody>

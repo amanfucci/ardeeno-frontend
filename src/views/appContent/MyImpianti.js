@@ -47,7 +47,13 @@ const MyImpianti = () =>{
               </CInputGroup>        
               )
             }
-            <CCardLink to='/myImpianti/dashboard' component={NavLink}>
+            <CCardLink
+              to='/myImpianti/dashboard'
+              component={NavLink}
+              onClick={()=>{
+                console.log(item);
+                context.setSelImp(item)
+              }}>
               Go to Dashboard
             </CCardLink>
           </CCardBody>

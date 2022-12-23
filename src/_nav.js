@@ -5,7 +5,7 @@ import {
   cilList,
   cilUser,
 } from '@coreui/icons'
-import { CNavGroup, CNavGroupItems, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 export const _nav = [
   {
@@ -34,18 +34,23 @@ export const _nav_cliente = [
     icon: <CIcon icon={cilList} customClassName="nav-icon" />,
     items:[{
       component: CNavItem,
-      name: 'Accordion',
-      to: '/wiki/base/accordion',
+      name: 'List',
+      to: '/myImpianti/list',
     },
     {
       component: CNavItem,
-      name: 'Breadcrumb',
-      to: '/wiki/base/breadcrumbs',
+      name: 'Dashboard',
+      to: '/myImpianti/dashboard',
     },
     {
       component: CNavItem,
-      name: 'Cards',
-      to: '/wiki/base/cards',
+      name: 'Heatmap',
+      to: '/myImpianti/heatmap',
+    },
+    {
+      component: CNavItem,
+      name: 'Misurazioni',
+      to: '/myImpianti/misurazioni',
     }]
   }
 ]

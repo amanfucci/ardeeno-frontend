@@ -27,10 +27,14 @@ export const AppContext = React.createContext();
 
 const App = () => {
   const [loggedUser, setLoggedUser] = React.useState('')
+  const [selImp, setSelImp] = React.useState('')
 
   React.useEffect(()=>{
     localforage.getItem('loggedUser').then((data)=>{
       setLoggedUser(data)
+    })
+    localforage.getItem('selImp').then((data)=>{
+      setSelImp(data)
     })
   }, [])
 
@@ -49,6 +53,13 @@ const App = () => {
       logout:()=>{
         localforage.setItem('loggedUser', '')
         setLoggedUser('')
+      },
+      getImp:()=>selImp,
+      setSelImp:(newSelImp)=>{
+        if(newSelImp && newSelImp != null){
+          localforage.setItem('selImp', newSelImp)
+          setSelImp(newSelImp)
+        }
       }
       }}>
       <Router>
