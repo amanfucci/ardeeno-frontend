@@ -3,26 +3,18 @@ import React from 'react'
 import {
   CCard,
   CCardBody,
-  CCardHeader,
   CCol,
   CCardImage,
   CRow,
-  CCardGroup,
   CCardTitle,
-  CCardText,
-  CCardFooter,
-  CListGroup,
-  CListGroupItem,
   CButton,
   CInputGroup,
-  CFormInput,
-  CInputGroupText,
-  CFormTextarea
+  CFormInput
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilClipboard } from '@coreui/icons'
 import _imgArdeeno from 'src/assets/images/multitask-ardeeno.png'
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 const Home = () =>
   <>

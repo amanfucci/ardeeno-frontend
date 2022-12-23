@@ -21,7 +21,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 
 import axios from 'axios'
 
-import {InfoModal} from 'src/components/index'
+import {ActionModal} from 'src/components/index'
 import {AppContext} from 'src/App'
 
 import { API_URL } from 'src/App'
@@ -30,7 +30,7 @@ const Login = () => {
   const [validated, setValidated] = React.useState(false)
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [loginError, setLoginError] = React.useState(false);
+  const [loginErrAction, setLoginErrAction] = React.useState(false);
   const navigate = useNavigate()
   const context = React.useContext(AppContext)
 
@@ -44,7 +44,7 @@ const Login = () => {
     const form = event.currentTarget
     if(form.checkValidity() === true){
       //send request, only if form is valid
-
+      console.log('POST /auth')
       axios.post(API_URL+'/auth', {
           'email' : email,
           'password' : password,
@@ -57,26 +57,29 @@ const Login = () => {
             _id: res.data._id,
             ruolo: res.data.ruolo
           })
-          //change utente state and redirect to /myAcc
+          //change utente state and redirect to /myAccount
           navigate('/myAccount')
         })
         .catch((err) => {
           console.log('Houston, we have an error: ' + err + '. See below for more info')
           console.log(err)
-          setLoginError(true)//show pop-up window
+          setLoginErrAction(true)//show pop-up window
         })
     }
   }
 
   return (
     <>
-    {context.getLoggedUser() ? <InfoModal title='Already logged in!'
-      body={'Already logged in as ' + context.getLoggedUser().email}/> : ''}
-    {loginError ?
-      <InfoModal
+    {context.getLoggedUser() ?
+    <ActionModal
+      title='Already logged in!'
+      body={'Already logged in as ' + context.getLoggedUser().email}
+      /> : ''}
+    {loginErrAction ?
+      <ActionModal
         title='Login Error!'
         body='See the console for more information'
-        onClose={()=>setLoginError(false)}
+        onClose={setLoginErrAction.bind(false)}
         /> : ''}
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>

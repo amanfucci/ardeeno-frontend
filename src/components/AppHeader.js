@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, useNavigate, useLocation  } from 'react-router-dom'
+import { NavLink, useLocation  } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -11,28 +11,30 @@ import {
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cibAbstract, cibSuperuser, cilAccountLogout, cilMenu, cilUser, cilUserPlus, cilUserX } from '@coreui/icons'
+import { cilAccountLogout, cilMenu, cilUser, cilUserPlus} from '@coreui/icons'
 
 import { AppContext } from 'src/App'
 
 import { logo } from 'src/assets/brand/logo'
 
-import {InfoModal} from 'src/components/index'
+import {ActionModal} from 'src/components/index'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
-  const navigate = useNavigate()
+  
   const context = React.useContext(AppContext)
 
   const [logoutAction, setLogoutAction] = React.useState(false)
 
   return (
     <>
-    {logoutAction ? <InfoModal 
+    {logoutAction ?
+    <ActionModal 
       title='Succesful Logout' 
       body='Close this window and go back home'
-      onClose={()=>{setLogoutAction(false);navigate('/home');}}></InfoModal> : ''}
+      onClose={()=>{setLogoutAction(false);}}
+      />: ''}
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
         <CHeaderToggler
@@ -42,7 +44,7 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CIcon icon={logo} height={48} alt="Logo" />
+          <CIcon icon={logo} width={140} alt="Logo" />
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
@@ -53,11 +55,11 @@ const AppHeader = () => {
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink component={NavLink}>
+            <CNavLink to='/home' component={NavLink}>
               <CIcon icon={cilAccountLogout} size="lg" onClick={() => {
                 console.log('setLogoutAction(true)');
-                setLogoutAction(true);
-                context.logout();
+                context.logout()
+                setLogoutAction(true)
               }}/>
             </CNavLink>       
           </CNavItem>

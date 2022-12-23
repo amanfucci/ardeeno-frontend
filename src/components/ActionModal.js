@@ -9,12 +9,12 @@ import {
 
 import { func, string } from 'prop-types';
 
-const InfoModal = (props)=>{
+const ActionModal = (props)=>{
   const [visible, setVisible] = React.useState(true)
   const onClose = () => {
     setVisible(false)
     props.onClose?.call()
-    console.log('InfoModal.onClose()');
+    console.log('ActionModal.onClose()');
   }
   return (
     <>
@@ -28,10 +28,10 @@ const InfoModal = (props)=>{
   )
 }
 
-InfoModal.propTypes = {
+ActionModal.propTypes = {
   title:string,
   body:string,
   onClose:func
 }
 
-export default InfoModal
+export default ActionModal

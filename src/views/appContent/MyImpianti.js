@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-key */
 import React from 'react'
 
-import {InfoModal} from 'src/components/index'
+import {ActionModal} from 'src/components/index'
 import {AppContext} from 'src/App'
+import { useNavigate } from 'react-router-dom';
 
 import {NavLink} from 'react-router-dom'
 
@@ -13,10 +14,13 @@ import { API_URL } from 'src/App'
 
 const MyImpianti = () =>{
   const [impianti, setImpianti] = React.useState([])
-  const [requestError, setRequestError] = React.useState(false)
+  const [reqErrAction, setReqErrAction] = React.useState(false)
 
+  const navigate = useNavigate()
   const context = React.useContext(AppContext)
+  
   React.useEffect(() => {
+    console.log('GET /myAcc/impianti')
     axios.get(API_URL+'/myAcc/impianti',
           {headers:{'x-access-token':context.getLoggedUser()?.token}})
           .then((res)=>{
@@ -26,13 +30,19 @@ const MyImpianti = () =>{
           .catch((err)=>{
             console.log('Houston, we have an error: ' + err + '. See below for more info')
             console.log(err)
-            setRequestError(true)//show pop-up window
+            setReqErrAction(true)//show pop-up window
           })
   }, []);
 
   return(
     <>
-    {requestError ? <InfoModal title='Request Error!' body='See the console for more information'/> : ''}
+    {!context.getLoggedUser() ? navigate('/401') : ''}
+    {reqErrAction ?
+    <ActionModal
+      title='Request Error!'
+      body='See the console for more information'
+      onClose={setReqErrAction.bind(false)}
+      /> : ''}
     <CRow>
       {
         impianti.map( item =>

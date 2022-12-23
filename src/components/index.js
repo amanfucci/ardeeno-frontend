@@ -4,7 +4,7 @@ import AppContent from './AppContent'
 import AppFooter from './AppFooter'
 import AppHeader from './AppHeader'
 import AppSidebar from './AppSidebar'
-import InfoModal from './InfoModal'
+import ActionModal from './ActionModal'
 
 import WikiContent from './WikiContent'
 import WikiHeader from './WikiHeader'
@@ -21,7 +21,7 @@ export {
   AppFooter,
   AppHeader,
   AppSidebar,
-  InfoModal,
+  ActionModal,
 
   WikiContent,
   WikiHeader,
