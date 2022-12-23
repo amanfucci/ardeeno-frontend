@@ -4,7 +4,6 @@ import {
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardGroup,
   CCol,
   CContainer,
@@ -126,7 +125,7 @@ const Login = () => {
                         <CButton
                           id="in_submit"
                           color="primary"
-                          className="px-4"
+                          className="px-4 text-white"
                           type="submit">
                           Login
                         </CButton>
@@ -144,17 +143,18 @@ const Login = () => {
                   </CCardLink>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              <CCard className="text-white bg-primary py-5" style={{ width: '100%' }}>
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
                     <p>Millions of users and thousands of
                       companies use Ardeeno as an innovation platform</p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
+                    <CButton
+                      color="primary"
+                      onClick={()=>alert('Work in progress -- assigned to next sprint')}
+                      className='bg-white text-primary'>
+                      Register Now!
+                    </CButton>
                   </div>
                 </CCardBody>
               </CCard>
