@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import axios from 'axios'
 import React from 'react'
 import { API_URL, AppContext} from 'src/App'
@@ -20,7 +19,8 @@ import {
   CAccordion,
   CAccordionItem,
   CAccordionHeader,
-  CAccordionBody
+  CAccordionBody,
+  CSpinner
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilArrowLeft, cilArrowRight} from '@coreui/icons'
@@ -35,6 +35,7 @@ const Heatmap = () => {
   const [selErrAction, setSelErrAction] = React.useState(false)
   const [reqErrAction, setReqErrAction] = React.useState(false)
   const [reqErrMessage, setReqErrMessage] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
 
   const [heatmap, setHeatmap] = React.useState(false)
 
@@ -62,6 +63,7 @@ const Heatmap = () => {
 
     if(selImpId && loggedUser){
       console.log('GET /myAcc/impianti/:selImp/heatmap')
+      setLoading(true)
       axios.get(API_URL+'/myAcc/impianti/'+selImpId+'/heatmap', 
       {headers:{'x-access-token':loggedUser.token}})
       .then((res)=>{
@@ -73,14 +75,16 @@ const Heatmap = () => {
         setSelSnap_i(_selSnap_i)
         setSelSnapTs(_selSnapTs)
         setSelParam(heatmap.parametri[0].name)
+        setLoading(false)
       }).catch((err)=>{
         console.log('Houston, we have an error: ' + err + '. See below for more info')
         console.log(err)
-        setReqErrMessage(err.response.data?.message)
+        setReqErrMessage(err?.response?.data?.message ?? 'No response')
         setReqErrAction(true)//show pop-up window
+        setLoading(false)
       })
     }
-  }, [])
+  }, [context])
 
   // Load selSnapTs to selSnap
   React.useEffect(()=>{
@@ -96,7 +100,7 @@ const Heatmap = () => {
       const _selSnap = []
       //change MisurazioneSchema to avoid this!! -- add lat, long to MisurazioneSchema
       for(let misurazione of res.data){
-        const mySensore = heatmap.sensori.find(sens => sens._id == misurazione.sensore )
+        const mySensore = heatmap.sensori.find(sens => sens._id === misurazione.sensore )
         _selSnap.push({
           sensore:misurazione.sensore,
           lat:mySensore.lat,
@@ -111,15 +115,15 @@ const Heatmap = () => {
     .catch((err)=>{
       console.log('Houston, we have an error: ' + err + '. See below for more info')
       console.log(err)
-      setReqErrMessage(err.response.data?.message)
+      setReqErrMessage(err?.response?.data?.message ?? 'No response')
       setReqErrAction(true)//show pop-up window
     })    
-  }, [selSnapTs])
+  }, [context, heatmap, selSnapTs])
 
   //set selSnapTs from selSnap_i
   React.useEffect(()=>{
     setSelSnapTs(parseInt(new Date(heatmap?.snapshots?.[selSnap_i]).getTime()))
-  }, [selSnap_i])
+  }, [heatmap, selSnap_i])
 
   return (
   <>
@@ -213,6 +217,7 @@ const Heatmap = () => {
                         label={par.name}
                         value={par.name}
                         onClick={()=>setSelParam(par.name)}
+                        key={par.name}
                       >{par.name}</CDropdownItem>
                     )
                   }
@@ -224,6 +229,7 @@ const Heatmap = () => {
         </CAccordion>
         </CCard>
       </CCol>
+      {loading ? <CSpinner color="primary"/> : ''}
     </CRow>
     
     </>

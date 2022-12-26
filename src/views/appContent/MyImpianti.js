@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React from 'react'
 
 import {ActionModal} from 'src/components/index'
@@ -21,6 +20,8 @@ const MyImpianti = () =>{
   const context = React.useContext(AppContext)
   
   React.useEffect(() => {
+    
+
     console.log('GET /myAcc/impianti')
     axios.get(API_URL+'/myAcc/impianti',
           {headers:{'x-access-token':context.getLoggedUser()?.token}})
@@ -31,10 +32,10 @@ const MyImpianti = () =>{
           .catch((err)=>{
             console.log('Houston, we have an error: ' + err + '. See below for more info')
             console.log(err)
-            setReqErrMessage(err.response.data?.message)
+            setReqErrMessage(err?.response?.data?.message ?? 'No response, see console')
             setReqErrAction(true)//show pop-up window
           })
-  }, []);
+  }, [context]);
 
   return(
     <>
@@ -48,12 +49,12 @@ const MyImpianti = () =>{
     <CRow>
       {
         impianti.map( item =>
-        <CCol xs md={6}>
+        <CCol xs md={6} key={item+'_group'}>
           <CCard >
           <CCardBody>
             {
             Object.keys(item).map(key => 
-              <CInputGroup className="mb-3">
+              <CInputGroup className="mb-3" key={item+'_'+key+'_group'}>
                 <CFormInput disabled value={key}></CFormInput>
                 <CFormInput aria-disabled value={item[key]}></CFormInput>
               </CInputGroup>        

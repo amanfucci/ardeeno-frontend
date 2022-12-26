@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { ActionModal } from 'src/components';
-import { API_URL, AppContext} from 'src/App';
+import {AppContext} from 'src/App';
 import { useNavigate } from 'react-router-dom';
 
 const Misurazioni = () =>{

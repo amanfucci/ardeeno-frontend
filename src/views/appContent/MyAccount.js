@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React from 'react'
 
 import {ActionModal} from 'src/components/index'
@@ -28,10 +27,10 @@ const MyAccount = () =>{
           .catch((err)=>{
             console.log('Houston, we have an error: ' + err + '. See below for more info')
             console.log(err)
-            setReqErrMessage(err.response.data?.message)
+            setReqErrMessage(err?.response?.data?.message ?? 'No response')
             setReqErrAction(true)//show pop-up window
           })
-  }, []);
+  }, [context]);
 
   return(
   <>
@@ -49,7 +48,7 @@ const MyAccount = () =>{
         <CCardBody>
           {
           Object.keys(userData).map(key => 
-            <CInputGroup className="mb-3">
+            <CInputGroup className="mb-3" key={key}>
               <CFormInput disabled value={key}></CFormInput>
               <CFormInput aria-disabled value={userData[key]}></CFormInput>
             </CInputGroup>        

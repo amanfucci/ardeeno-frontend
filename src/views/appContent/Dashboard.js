@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React from 'react'
 
 import {NavLink} from 'react-router-dom'
@@ -40,7 +39,7 @@ const MyImpianti = () =>{
             <CCardBody>
               {
               Object.keys(context.getSelImp()).map(key => 
-                <CInputGroup className="mb-3">
+                <CInputGroup className="mb-3" key={key}>
                   <CFormInput disabled value={key}></CFormInput>
                   <CFormInput aria-disabled value={context.getSelImp()?.[key]}></CFormInput>
                 </CInputGroup>        
