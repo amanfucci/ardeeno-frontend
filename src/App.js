@@ -42,8 +42,7 @@ const App = () => {
   return (
     <>
     <AppContext.Provider value={{
-      getLoggedUser:()=>loggedUser
-      ,
+      getLoggedUser:()=>loggedUser??false,
       login:(newLoggedUser)=>{
         if(newLoggedUser && newLoggedUser != null){
           localforage.setItem('loggedUser', newLoggedUser)
@@ -51,10 +50,14 @@ const App = () => {
         }
       },
       logout:()=>{
-        localforage.setItem('loggedUser', '')
+        localforage.removeItem('loggedUser')
+        localforage.removeItem('selImp')
+        localforage.clear()
+
         setLoggedUser('')
+        setSelImp('')
       },
-      getSelImp:()=>selImp,
+      getSelImp:()=>selImp??false,
       setSelImp:(newSelImp)=>{
         if(newSelImp && newSelImp != null){
           localforage.setItem('selImp', newSelImp)

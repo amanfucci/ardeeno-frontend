@@ -23,7 +23,7 @@ import {
   CAccordionBody
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilArrowLeft, cilArrowRight, cilArrowThickLeft, cilArrowThickRight } from '@coreui/icons'
+import { cilArrowLeft, cilArrowRight} from '@coreui/icons'
 
 const COLORS = [[0, 172, 105], [0, 172, 105], [244, 161, 0], [247, 100, 0], [232, 21, 0], [227, 0, 89], [105, 0, 99]];
 
@@ -32,8 +32,9 @@ const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/s
 const IS_MOBILE = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)
 
 const Heatmap = () => {
-  const [infoAction, setInfoAction] = React.useState(false)
+  const [selErrAction, setSelErrAction] = React.useState(false)
   const [reqErrAction, setReqErrAction] = React.useState(false)
+  const [reqErrMessage, setReqErrMessage] = React.useState(false)
 
   const [heatmap, setHeatmap] = React.useState(false)
 
@@ -45,9 +46,14 @@ const Heatmap = () => {
   const navigate = useNavigate()
   const context = React.useContext(AppContext)
 
+  React.useEffect(()=>{
+    setSelErrAction(!context.getSelImp())
+  }, [context])
+
   const isBound = i => {
     return heatmap?.snapshots && (0 <= i && i < heatmap.snapshots.length)
   }
+
 
   //Init Heatmap
   React.useEffect(()=>{
@@ -70,6 +76,7 @@ const Heatmap = () => {
       }).catch((err)=>{
         console.log('Houston, we have an error: ' + err + '. See below for more info')
         console.log(err)
+        setReqErrMessage(err.response.data?.message)
         setReqErrAction(true)//show pop-up window
       })
     }
@@ -104,6 +111,7 @@ const Heatmap = () => {
     .catch((err)=>{
       console.log('Houston, we have an error: ' + err + '. See below for more info')
       console.log(err)
+      setReqErrMessage(err.response.data?.message)
       setReqErrAction(true)//show pop-up window
     })    
   }, [selSnapTs])
@@ -115,110 +123,110 @@ const Heatmap = () => {
 
   return (
   <>
-  {!context.getLoggedUser() ? navigate('/401') : ''}
-  {infoAction ?
-  <ActionModal
-    title='No selection!'
-    body='Please first select an Impianto in /myImpianti/list'
-    onClose={setInfoAction.bind(false)}
-    /> : ''}
-  {reqErrAction ?
-  <ActionModal
-    title='Request Error!'
-    body='See the console for more information'
-    onClose={setReqErrAction.bind(false)}
-    /> : ''}
-  <DeckGL
-    initialViewState={{
-      latitude: heatmap?.lat ?? 0,
-      longitude: heatmap?.long ?? 0,
-      zoom: 13,
-      minZoom: 10,
-      maxZoom: 17,
-      pitch: 40,
-      bearing: 0,    
-    }}
-    controller={true}
-    ContextProvider={MapContext.Provider}
-    pickable={true}
-    geoToolTip={(data)=>{console.log(data)}}
-    layers={[
-        new HeatmapLayer({
-          data: selSnap || [],
-          // Parsing
-          getPosition: i => [i.long, i.lat],
-          getWeight: i => i.valori[selParam],
-          // Styles
-          opacity: 0.3,
-          intensity: 1,
-          radiusPixels: 30,
-          //colorDomain: [0.01, 6],
-          colorRange: COLORS,
-          aggregation: 'MEAN',
-          updateTriggers:{
-            getWeight: selParam
-          }
-        }),
-        new HexagonLayer({
-          data: selSnap || [],
-          opacity: IS_MOBILE ? 0.5 : 0,
-          getPosition: i => [i.long, i.lat],
-          getColorWeight: i => i.valori[selParam],
-          radius: 100,
-          colorAggregation: 'MEAN',
-          updateTriggers:{
-            getColorWeight: selParam
-          }
-      })
-      ]}
-    >
-    <StaticMap mapStyle={MAP_STYLE} />
-  </DeckGL>
+    {!context.getLoggedUser() ? navigate('/401') : ''}
+    {selErrAction ?
+    <ActionModal
+      title='No selection!'
+      body='Please first select an Impianto in /myImpianti/list'
+      onClose={()=>{setSelErrAction(false); navigate('/myImpianti/list')}}
+      /> : ''}
+    {reqErrAction ?
+    <ActionModal
+      title='Request Error!'
+      body={reqErrMessage}
+      onClose={setReqErrAction.bind(false)}
+      /> : ''}
+    <DeckGL
+      initialViewState={{
+        latitude: heatmap?.lat ?? 0,
+        longitude: heatmap?.long ?? 0,
+        zoom: 13,
+        minZoom: 10,
+        maxZoom: 17,
+        pitch: 40,
+        bearing: 0,    
+      }}
+      controller={true}
+      ContextProvider={MapContext.Provider}
+      pickable={true}
+      geoToolTip={(data)=>{console.log(data)}}
+      layers={[
+          new HeatmapLayer({
+            data: selSnap || [],
+            // Parsing
+            getPosition: i => [i.long, i.lat],
+            getWeight: i => i.valori[selParam],
+            // Styles
+            opacity: 0.3,
+            intensity: 1,
+            radiusPixels: 30,
+            //colorDomain: [0.01, 6],
+            colorRange: COLORS,
+            aggregation: 'MEAN',
+            updateTriggers:{
+              getWeight: selParam
+            }
+          }),
+          new HexagonLayer({
+            data: selSnap || [],
+            opacity: IS_MOBILE ? 0.5 : 0,
+            getPosition: i => [i.long, i.lat],
+            getColorWeight: i => i.valori[selParam],
+            radius: 100,
+            colorAggregation: 'MEAN',
+            updateTriggers:{
+              getColorWeight: selParam
+            }
+        })
+        ]}
+      >
+      <StaticMap mapStyle={MAP_STYLE} />
+    </DeckGL>
 
-  <CRow>
-    <CCol md={2} style={{minWidth:'min-content', maxWidth:'min-content'}}>
-      <CCard className='text-center'>
-      <CAccordion>
-        <CAccordionItem itemKey={1}>
-          <CAccordionHeader>{new Date(selSnapTs).toLocaleDateString()}&nbsp;&nbsp;<br/>{new Date(selSnapTs).toLocaleTimeString()}</CAccordionHeader>
-          <CAccordionBody>
-            <CButtonGroup vertical>
-              <CButton
-                color='primary'
-                variant='outline'
-                onClick={()=>{isBound(selSnap_i-1) && setSelSnap_i(selSnap_i-1)}}
-                disabled={!isBound(selSnap_i-1)}
-                ><CIcon icon={cilArrowLeft}/></CButton>
-              <CButton
-                color='primary'
-                variant='outline'
-                onClick={()=>{isBound(selSnap_i+1) && setSelSnap_i(selSnap_i+1)}}
-                disabled={!isBound(selSnap_i+1)}
-                ><CIcon icon={cilArrowRight}/></CButton>
-              <CDropdown variant="btn-group">
-                <CDropdownToggle color="primary" variant='outline'>{selParam}</CDropdownToggle>
-                <CDropdownMenu>
-                {
-                  (heatmap.parametri ?? []).map(par =>
-                    <CDropdownItem
-                      className={par.name === selParam ? 'bg-primary' : ''}
-                      label={par.name}
-                      value={par.name}
-                      onClick={()=>setSelParam(par.name)}
-                    >{par.name}</CDropdownItem>
-                  )
-                }
-                </CDropdownMenu>
-              </CDropdown>
-            </CButtonGroup>
-          </CAccordionBody>
-        </CAccordionItem>
-      </CAccordion>
-      </CCard>
-    </CCol>
-  </CRow>
-  
-  </>
+    <CRow>
+      <CCol md={2} style={{minWidth:'min-content', maxWidth:'min-content'}}>
+        <CCard className='text-center'>
+        <CAccordion>
+          <CAccordionItem itemKey={1}>
+            <CAccordionHeader>{new Date(selSnapTs).toLocaleDateString()}&nbsp;&nbsp;<br/>{new Date(selSnapTs).toLocaleTimeString()}</CAccordionHeader>
+            <CAccordionBody>
+              <CButtonGroup vertical>
+                <CButton
+                  color='primary'
+                  variant='outline'
+                  onClick={()=>{isBound(selSnap_i-1) && setSelSnap_i(selSnap_i-1)}}
+                  disabled={!isBound(selSnap_i-1)}
+                  ><CIcon icon={cilArrowLeft}/></CButton>
+                <CButton
+                  color='primary'
+                  variant='outline'
+                  onClick={()=>{isBound(selSnap_i+1) && setSelSnap_i(selSnap_i+1)}}
+                  disabled={!isBound(selSnap_i+1)}
+                  ><CIcon icon={cilArrowRight}/></CButton>
+                <CDropdown variant="btn-group">
+                  <CDropdownToggle color="primary" variant='outline'>{selParam}</CDropdownToggle>
+                  <CDropdownMenu>
+                  {
+                    (heatmap.parametri ?? []).map(par =>
+                      <CDropdownItem
+                        className={par.name === selParam ? 'bg-primary' : ''}
+                        label={par.name}
+                        value={par.name}
+                        onClick={()=>setSelParam(par.name)}
+                      >{par.name}</CDropdownItem>
+                    )
+                  }
+                  </CDropdownMenu>
+                </CDropdown>
+              </CButtonGroup>
+            </CAccordionBody>
+          </CAccordionItem>
+        </CAccordion>
+        </CCard>
+      </CCol>
+    </CRow>
+    
+    </>
   )
 }
 

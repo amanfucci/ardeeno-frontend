@@ -17,17 +17,22 @@ import {
   CCardLink} from '@coreui/react'
 
 const MyImpianti = () =>{
-
+  const [selErrAction, setSelErrAction] = React.useState(false)
   const navigate = useNavigate()
   const context = React.useContext(AppContext)
+
+  React.useEffect(()=>{
+    setSelErrAction(!context.getSelImp())
+  }, [context])
 
   return(
     <>
     {!context.getLoggedUser() ? navigate('/401') : ''}
-    {!context.getSelImp() ?
+    {selErrAction ?
     <ActionModal
-      title='Select one Impianto!'
-      body='Please, select first an Impianto'
+      title='No selection!'
+      body='Please first select an Impianto in /myImpianti/list'
+      onClose={()=>{setSelErrAction(false); navigate('/myImpianti/list')}}
       /> : ''}
     <CRow xs={{ cols: 1, gutter: 3 }} md={{ cols: 3, gutter: 5}}>
         <CCol xs>
@@ -37,7 +42,7 @@ const MyImpianti = () =>{
               Object.keys(context.getSelImp()).map(key => 
                 <CInputGroup className="mb-3">
                   <CFormInput disabled value={key}></CFormInput>
-                  <CFormInput aria-disabled value={context.getSelImp()[key]}></CFormInput>
+                  <CFormInput aria-disabled value={context.getSelImp()?.[key]}></CFormInput>
                 </CInputGroup>        
                 )
               }

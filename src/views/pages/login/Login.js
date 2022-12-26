@@ -29,7 +29,8 @@ const Login = () => {
   const [validated, setValidated] = React.useState(false)
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [loginErrAction, setLoginErrAction] = React.useState(false);
+  const [loginErrAction, setLoginErrAction] = React.useState(false)
+  const [loginErrMessage, setLoginErrMessage] = React.useState(false)
   const navigate = useNavigate()
   const context = React.useContext(AppContext)
 
@@ -62,6 +63,7 @@ const Login = () => {
         .catch((err) => {
           console.log('Houston, we have an error: ' + err + '. See below for more info')
           console.log(err)
+          setLoginErrMessage(err.response.data?.message)
           setLoginErrAction(true)//show pop-up window
         })
     }
@@ -77,7 +79,7 @@ const Login = () => {
     {loginErrAction ?
       <ActionModal
         title='Login Error!'
-        body='See the console for more information'
+        body={loginErrMessage}
         onClose={setLoginErrAction.bind(false)}
         /> : ''}
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">

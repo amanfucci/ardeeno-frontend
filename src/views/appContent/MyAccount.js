@@ -12,6 +12,7 @@ import { API_URL } from 'src/App'
 const MyAccount = () =>{
   const [userData, setUserData] = React.useState({})
   const [reqErrAction, setReqErrAction] = React.useState(false)
+  const [reqErrMessage, setReqErrMessage] = React.useState(false)
 
   const navigate = useNavigate()
   const context = React.useContext(AppContext)
@@ -27,6 +28,7 @@ const MyAccount = () =>{
           .catch((err)=>{
             console.log('Houston, we have an error: ' + err + '. See below for more info')
             console.log(err)
+            setReqErrMessage(err.response.data?.message)
             setReqErrAction(true)//show pop-up window
           })
   }, []);
@@ -37,7 +39,7 @@ const MyAccount = () =>{
   {reqErrAction ?
   <ActionModal
     title='Request Error!'
-    body='See the console for more information'
+    body={reqErrMessage}
     onClose={setReqErrAction.bind(false)}
     /> : ''}
   

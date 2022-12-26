@@ -17,6 +17,7 @@ const AppContent = () =>
           <Route exact path="/" name="Home" element={<Navigate replace to="/home" />}/>
           <Route exact path="/home" name="Home" element={<Home/>} />
           <Route exact path="/myAccount" name="Account" element={<MyAccount/>} />
+          <Route exact path="/myImpianti" element={<Navigate replace to="/myImpianti/list" />} />
           <Route exact path="/myImpianti/list" name="Impianti" element={<MyImpianti/>} />
           <Route exact path="/myImpianti/dashboard" name="Dashboard" element={<Dashboard/>} />
           <Route exact path="/myImpianti/heatmap" name="Heatmap" element={<Heatmap/>} />
