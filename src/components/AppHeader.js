@@ -11,7 +11,12 @@ import {
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilAccountLogout, cilMenu, cilUser, cilUserPlus} from '@coreui/icons'
+import {
+  cilAccountLogout,
+  cilMenu,
+  cilUser,
+  cilUserPlus
+} from '@coreui/icons'
 
 import { AppContext } from 'src/App'
 

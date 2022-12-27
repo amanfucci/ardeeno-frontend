@@ -62,7 +62,7 @@ const Login = () => {
       .catch((err) => {
         console.log('Houston, we have an error: ' + err + '. See below for more info')
         console.log(err)
-        setLoginErrMessage(err?.response?.data?.message ?? 'No response')
+        setLoginErrMessage(err?.response?.data?.message ?? 'No response, see console')
         setLoginErrAction(true)//show pop-up window
       })
     }

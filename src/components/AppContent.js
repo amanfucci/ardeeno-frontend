@@ -1,6 +1,9 @@
 import React, { Suspense } from 'react'
-import {Route, Routes, Navigate } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
+import { Route, Routes, Navigate } from 'react-router-dom'
+import {
+  CContainer,
+  CSpinner
+} from '@coreui/react'
 
 const Home = React.lazy(() => import('../views/appContent/Home'))
 const MyAccount = React.lazy(() => import('../views/appContent/MyAccount'))

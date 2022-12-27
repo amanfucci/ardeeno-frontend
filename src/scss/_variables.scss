@@ -518,7 +518,7 @@ $enable-shadows:                    true !default;
 // Font, line-height, and color for body text, headings, and more.
 @font-face{
   font-family: 'Lato';
-  src: local('Lato'), url(Lato-Regular.ttf) format('ttf');
+  src: local('Lato'), 'src/assets/fonts/Lato-Regular.ttf' format('ttf');
 }
 // scss-docs-start font-variables
 // stylelint-disable value-keyword-case

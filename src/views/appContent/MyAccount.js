@@ -27,7 +27,7 @@ const MyAccount = () =>{
           .catch((err)=>{
             console.log('Houston, we have an error: ' + err + '. See below for more info')
             console.log(err)
-            setReqErrMessage(err?.response?.data?.message ?? 'No response')
+            setReqErrMessage(err?.response?.data?.message ?? 'No response, see console')
             setReqErrAction(true)//show pop-up window
           })
   }, [context]);
