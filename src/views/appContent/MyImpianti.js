@@ -46,15 +46,15 @@ const MyImpianti = () =>{
       body={reqErrMessage}
       onClose={setReqErrAction.bind(false)}
       /> : ''}
-    <CRow>
+    <CRow xs={{ cols: 1, gutter: 3 }} md={{ cols: 3, gutter: 5}}>
       {
         impianti.map( item =>
-        <CCol xs md={6} key={item+'_group'}>
+        <CCol xs md={6} key={item._id+'_group'}>
           <CCard >
           <CCardBody>
             {
             Object.keys(item).map(key => 
-              <CInputGroup className="mb-3" key={item+'_'+key+'_group'}>
+              <CInputGroup className="mb-3" key={item._id+'_'+key+'_group'}>
                 <CFormInput disabled value={key}></CFormInput>
                 <CFormInput aria-disabled value={item[key]}></CFormInput>
               </CInputGroup>        

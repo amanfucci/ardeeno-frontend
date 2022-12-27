@@ -69,11 +69,16 @@ const Heatmap = () => {
       .then((res)=>{
         const heatmap = res.data
         console.log(heatmap)
-        const _selSnap_i = heatmap.snapshots.length-1
-        const _selSnapTs = new Date(heatmap.snapshots[_selSnap_i]).getTime()
+        if(heatmap.snapshots.length > 0){
+          const _selSnap_i = heatmap.snapshots.length-1
+          const _selSnapTs = new Date(heatmap.snapshots[_selSnap_i]).getTime()
+          setSelSnap_i(_selSnap_i)
+          setSelSnapTs(_selSnapTs)
+        }else{
+          setReqErrAction(true)
+          setReqErrMessage('This Impianto has no snapshots!')
+        }
         setHeatmap(heatmap)
-        setSelSnap_i(_selSnap_i)
-        setSelSnapTs(_selSnapTs)
         setSelParam(heatmap.parametri[0].name)
         setLoading(false)
       }).catch((err)=>{
@@ -91,7 +96,7 @@ const Heatmap = () => {
     const loggedUser = context.getLoggedUser()
     const selImpId = context.getSelImp()?._id
 
-    if(!heatmap) return;
+    if(!heatmap || !selSnapTs || !selSnap_i) return;
     
     console.log('GET /myAcc/impianti/:selImp/snapshots/:selSnap')
     axios.get(API_URL+'/myAcc/impianti/'+selImpId+'/snapshots/'+selSnapTs, 

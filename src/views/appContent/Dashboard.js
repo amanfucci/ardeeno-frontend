@@ -60,6 +60,7 @@ const MyImpianti = () =>{
             </CCardBody>
           </CCard>
         </CCol>
+        {/*
         <CCol xs>
           <CCard >
             <CCardBody>
@@ -72,6 +73,7 @@ const MyImpianti = () =>{
             </CCardBody>
           </CCard>
         </CCol>
+        */}
     </CRow>
     </>
   )

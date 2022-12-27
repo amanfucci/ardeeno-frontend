@@ -46,11 +46,11 @@ export const _nav_cliente = [
       component: CNavItem,
       name: 'Heatmap',
       to: '/myImpianti/heatmap',
-    },
+    }/*,
     {
       component: CNavItem,
       name: 'Misurazioni',
       to: '/myImpianti/misurazioni',
-    }]
+    }*/]
   }
 ]
