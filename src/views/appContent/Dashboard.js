@@ -13,7 +13,8 @@ import {
   CInputGroup,
   CCol,
   CRow,
-  CCardLink} from '@coreui/react'
+  CCardLink,
+  CCardTitle} from '@coreui/react'
 
 const MyImpianti = () =>{
   const [selErrAction, setSelErrAction] = React.useState(false)
@@ -51,6 +52,7 @@ const MyImpianti = () =>{
         <CCol xs>
           <CCard >
             <CCardBody>
+            <CCardTitle>Heatmap</CCardTitle>
               Visualizza le misurazioni del tuo Impianto
               in una performante Heatmap!
               <br/>

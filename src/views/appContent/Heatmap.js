@@ -96,7 +96,7 @@ const Heatmap = () => {
     const loggedUser = context.getLoggedUser()
     const selImpId = context.getSelImp()?._id
 
-    if(!heatmap || !selSnapTs || !selSnap_i) return;
+    if(!heatmap || !selSnapTs) return;
     
     console.log('GET /myAcc/impianti/:selImp/snapshots/:selSnap')
     axios.get(API_URL+'/myAcc/impianti/'+selImpId+'/snapshots/'+selSnapTs, 

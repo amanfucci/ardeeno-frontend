@@ -98,20 +98,24 @@ const Home = () =>
     </CCol>
 
     <CCol xs>
-      <MapContainer center={[46.06692696202572, 11.150354087784466]}
-        zoom={16}
-        scrollWheelZoom={false}
-        style={{height:'5cm', width:'100%'}}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[46.06692696202572, 11.150354087784466]}>
-          <Popup>
-            Ardeeno - Sede Centrale
-          </Popup>
-        </Marker>
-      </MapContainer>
+        <MapContainer 
+          center={[46.06692696202572, 11.150354087784466]}
+          zoom={16}
+          scrollWheelZoom={false}
+          className="h-100"
+          style={{'min-height':'5cm'}}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[46.06692696202572, 11.150354087784466]}>
+            <Popup>
+              Ardeeno - Sede Centrale
+              <br/><hr/> 
+              Sommarive 18 Povo
+            </Popup>
+          </Marker>
+        </MapContainer>
     </CCol>
 
   </CRow>
