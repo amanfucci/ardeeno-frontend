@@ -18,7 +18,8 @@ import {
   CFormCheck,
   CButtonGroup,
   CButton,
-  CPopover
+  CPopover,
+  CSpinner
 } from '@coreui/react'
 
 import { API_URL } from 'src/App'
@@ -29,6 +30,8 @@ const MyImpianti = () =>{
   const [impianti, setImpianti] = React.useState([])
   const [reqErrAction, setReqErrAction] = React.useState(false)
   const [reqErrMessage, setReqErrMessage] = React.useState(false)
+
+  const [loading, setLoading] = React.useState(false)
   
   const [modelli, setModelli] = React.useState([])
   const [filterStato, setFilterStato] = React.useState(new Set())
@@ -38,21 +41,22 @@ const MyImpianti = () =>{
   const context = React.useContext(AppContext)
   
   React.useEffect(() => {
-    
-
     console.log('GET /myAcc/impianti')
+    setLoading(true)
     axios.get(API_URL+'/myAcc/impianti',
           {headers:{'x-access-token':context.getLoggedUser()?.token}})
           .then((res)=>{
             console.log(res.data);
             setImpianti(res.data.sort((i1, i2) => i1.dataAcquisto <= i2.dataAcquisto));
             setModelli([...new Set(res.data.map(imp => imp.modello))])
+            setLoading(false)
           })
           .catch((err)=>{
             console.log('Houston, we have an error: ' + err + '. See below for more info')
             console.log(err)
             setReqErrMessage(err?.response?.data?.message ?? 'No response, see console')
             setReqErrAction(true)//show pop-up window
+            setLoading(false)
           })
   }, [context]);
 
@@ -134,7 +138,7 @@ const MyImpianti = () =>{
                     </CButtonGroup>
                   </>}
                 placement="bottom"
-              >
+                >
                 <CButton
                   color='dark'
                   variant='ghost'
@@ -143,6 +147,9 @@ const MyImpianti = () =>{
                 </CButton>
               </CPopover>
             </CButtonGroup>
+          </CCardBody>
+          <CCardBody>
+          {loading ? <CSpinner color="primary"/> : ''}
           </CCardBody>
         </CCard>
       </CCol>
@@ -156,7 +163,7 @@ const MyImpianti = () =>{
           md={6}
           key={item._id+'_group'}
           >
-          <CCard>
+          <CCard className={'border-bottom border-3 border-opacity-50 '+(item.isDismesso ? 'border-warning' : 'border-primary')}>
           <CCardBody>
             {
             Object.keys(item).filter(k => ['_id', 'superficie', 'fattura'].every(k1 => k !== k1)).map(key => 

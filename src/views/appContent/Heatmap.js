@@ -200,18 +200,20 @@ const Heatmap = () => {
             <CAccordionHeader>{new Date(selSnapTs).toLocaleDateString()}&nbsp;&nbsp;<br/>{new Date(selSnapTs).toLocaleTimeString()}</CAccordionHeader>
             <CAccordionBody>
               <CButtonGroup vertical>
-                <CButton
-                  color='primary'
-                  variant='outline'
-                  onClick={()=>{isBound(selSnap_i-1) && setSelSnap_i(selSnap_i-1)}}
-                  disabled={!isBound(selSnap_i-1)}
-                  ><CIcon icon={cilArrowLeft}/></CButton>
-                <CButton
-                  color='primary'
-                  variant='outline'
-                  onClick={()=>{isBound(selSnap_i+1) && setSelSnap_i(selSnap_i+1)}}
-                  disabled={!isBound(selSnap_i+1)}
-                  ><CIcon icon={cilArrowRight}/></CButton>
+                <CButtonGroup>
+                  <CButton
+                    color='primary'
+                    variant='outline'
+                    onClick={()=>{isBound(selSnap_i-1) && setSelSnap_i(selSnap_i-1)}}
+                    disabled={!isBound(selSnap_i-1)}
+                    ><CIcon icon={cilArrowLeft}/></CButton>
+                  <CButton
+                    color='primary'
+                    variant='outline'
+                    onClick={()=>{isBound(selSnap_i+1) && setSelSnap_i(selSnap_i+1)}}
+                    disabled={!isBound(selSnap_i+1)}
+                    ><CIcon icon={cilArrowRight}/></CButton>
+                </CButtonGroup>
                 <CDropdown variant="btn-group">
                   <CDropdownToggle color="primary" variant='outline'>{selParam}</CDropdownToggle>
                   <CDropdownMenu>

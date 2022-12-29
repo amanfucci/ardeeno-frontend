@@ -91,7 +91,8 @@ const Login = () => {
                     <CForm
                       noValidate
                       validated={validated}
-                      onSubmit={handleSubmit}>
+                      onSubmit={handleSubmit}
+                      >
                       <h1>Login</h1>
                       <p className="text-medium-emphasis">Sign In to your account</p>
                       <CInputGroup className="mb-3">
@@ -104,6 +105,7 @@ const Login = () => {
                           placeholder="Email"
                           autoComplete="email"
                           pattern=".+@.+\..+"
+                          feedbackInvalid="Please enter a valid email address"
                           required
                           onChange={(event)=>setEmail(event.currentTarget.value)}
                           />
@@ -146,7 +148,7 @@ const Login = () => {
                   <CCardBody className="text-center">
                     <div>
                       <h2>Sign up</h2>
-                      <p>Millions of users and thousands of
+                      <p>Thousands of users and
                         companies use Ardeeno as an innovation platform</p>
                       <CButton
                         color="primary"

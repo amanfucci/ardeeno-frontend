@@ -14,8 +14,7 @@ import CIcon from '@coreui/icons-react'
 import {
   cilAccountLogout,
   cilMenu,
-  cilUser,
-  cilUserPlus
+  cilUser
 } from '@coreui/icons'
 
 import { AppContext } from 'src/App'
@@ -59,20 +58,30 @@ const AppHeader = () => {
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
-          <CNavItem>
-            <CNavLink to='/home' component={NavLink}>
-              <CIcon icon={cilAccountLogout} size="lg" onClick={() => {
-                console.log('setLogoutAction(true)');
-                context.logout()
-                setLogoutAction(true)
-              }}/>
-            </CNavLink>       
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to={context.getLoggedUser() ? "/myAccount" : "/login"} component={NavLink}>
-              <CIcon icon={context.getLoggedUser() ? cilUser : cilUserPlus } size="lg" />
-            </CNavLink>       
-          </CNavItem>
+          { context.getLoggedUser() ? 
+            <>
+              <CNavItem>
+                <CNavLink to='/home' component={NavLink}>
+                <CIcon icon={cilAccountLogout} size="lg" onClick={() => {
+                  console.log('setLogoutAction(true)');
+                  context.logout()
+                  setLogoutAction(true)
+                }}/>
+                </CNavLink>                       
+              </CNavItem>
+              <CNavItem>
+                <CNavLink to="/myAccount" component={NavLink}>
+                  <CIcon icon={cilUser} size="lg" />
+                </CNavLink>
+              </CNavItem>   
+            </>
+            :
+            <>
+              <CNavLink to="/login" component={NavLink}>
+                Login
+              </CNavLink> 
+            </>
+          }
         </CHeaderNav>
       </CContainer>
     </CHeader>
